@@ -77,8 +77,8 @@ uint32_t BMP180::requestMeasurementP() {
 bool BMP180::getResultT() {
   Wire.beginTransmission(_addr);
   Wire.write(0xF6);
-  uint8_t ret = Wire.endTransmission();
-  if (ret != 0) return false;
+  
+  if (Wire.endTransmission() != 0) return false;
   Wire.requestFrom(_addr, (uint8_t)2);
   _rtemp = Wire.read();
   _rtemp <<= 8;
@@ -89,8 +89,7 @@ bool BMP180::getResultT() {
 bool BMP180::getResultP() {
   Wire.beginTransmission(_addr);
   Wire.write(0xF6);
-  uint8_t ret = Wire.endTransmission();
-  if (ret != 0) return false;
+  if (Wire.endTransmission() != 0) return false;
   Wire.requestFrom(_addr, (uint8_t)2);
   _rpressure = Wire.read();
   _rpressure <<= 8;
