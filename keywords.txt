@@ -1,0 +1,29 @@
+#######################################
+# Syntax Coloring Map For BMP180
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+BMP180	KEYWORD1	BMP180
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+requestMeasurementT KEYWORD2
+requestMeasurementP KEYWORD2
+begin KEYWORD2
+getTempInC KEYWORD2
+getPressure KEYWORD2
+getResultT KEYWORD2
+getResultP KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+BMP180_MODE_ULTRALOWPOWER LITERAL1
+BMP180_MODE_STANDARD LITERAL1
+BMP180_MODE_HIRES LITERAL1
+BMP180_MODE_ULTRAHIRES LITERAL1
