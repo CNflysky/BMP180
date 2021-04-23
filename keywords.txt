@@ -19,6 +19,8 @@ getTempInC KEYWORD2
 getPressure KEYWORD2
 getResultT KEYWORD2
 getResultP KEYWORD2
+getTempInCDirect KEYWORD2
+getPressureDirect KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
