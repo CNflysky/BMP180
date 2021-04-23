@@ -1,6 +1,7 @@
 #include "BMP180.h"
 
 #include <Arduino.h>
+#include <limits.h>
 
 BMP180::BMP180(uint8_t addr) { _addr = addr; }
 BMP180::BMP180() { _addr = 0x77; }
@@ -77,7 +78,7 @@ uint32_t BMP180::requestMeasurementP() {
 bool BMP180::getResultT() {
   Wire.beginTransmission(_addr);
   Wire.write(0xF6);
-  
+
   if (Wire.endTransmission() != 0) return false;
   Wire.requestFrom(_addr, (uint8_t)2);
   _rtemp = Wire.read();
@@ -142,4 +143,21 @@ int32_t BMP180::_getB5(int32_t UT) {
   return (((UT - _uidata[2]) * _uidata[1]) >> 15) +
          (((int32_t)_idata[6] << 11) /
           ((((UT - _uidata[2]) * _uidata[1]) >> 15) + _idata[7]));
+}
+
+double BMP180::getTempInCDirect() {
+  delay(requestMeasurementT());
+  if (!getResultT())
+    return -273.15;
+  else
+    return getTempInC();
+}
+
+int32_t BMP180::getPressureDirect() {
+  getTempInCDirect();
+  delay(requestMeasurementP());
+  if (!getResultP())
+    return INT_MAX;
+  else
+    return getPressure();
 }
