@@ -20,7 +20,9 @@ class BMP180 {
   uint32_t requestMeasurementP();
   bool getResultT();
   bool getResultP();
+  double getTempInCDirect();
   double getTempInC();
+  int32_t getPressureDirect();
   int32_t getPressure();
   bool begin(BMP180modes_t mode);
   private:
