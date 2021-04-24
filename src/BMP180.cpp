@@ -6,10 +6,10 @@
 BMP180::BMP180(uint8_t addr) { _addr = addr; }
 BMP180::BMP180() { _addr = 0x77; }
 BMP180::~BMP180() {}
-bool BMP180::begin(BMP180modes_t mode) {
+bool BMP180::begin(BMP180modes_t mode, uint8_t sda, uint8_t scl) {
   _mode = mode;
-  Wire.begin();
-  switch (mode) {
+  Wire.begin(sda, scl);
+  switch (_mode) {
     case BMP180_MODE_ULTRALOWPOWER:
       _delay = 5;
       break;
@@ -58,6 +58,10 @@ bool BMP180::begin(BMP180modes_t mode) {
   else
     return true;
 }
+
+bool BMP180::begin(BMP180modes_t mode) {
+  return begin(mode, 4, 5);
+}  // default SDA and SCL
 
 uint32_t BMP180::requestMeasurementT() {
   Wire.beginTransmission(_addr);

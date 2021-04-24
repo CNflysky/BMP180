@@ -25,6 +25,7 @@ class BMP180 {
   int32_t getPressureDirect();
   int32_t getPressure();
   bool begin(BMP180modes_t mode);
+  bool begin(BMP180modes_t mode,uint8_t sda,uint8_t scl);
   private:
   int32_t _rpressure;
   int32_t _rtemp;
