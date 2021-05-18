@@ -9,20 +9,7 @@ BMP180::~BMP180() {}
 bool BMP180::begin(BMP180modes_t mode, uint8_t sda, uint8_t scl) {
   _mode = mode;
   Wire.begin(sda, scl);
-  switch (_mode) {
-    case BMP180_MODE_ULTRALOWPOWER:
-      _delay = 5;
-      break;
-    case BMP180_MODE_STANDARD:
-      _delay = 8;
-      break;
-    case BMP180_MODE_HIRES:
-      _delay = 14;
-      break;
-    default:
-      _delay = 26;
-      break;
-  }
+  _setDelay(_mode);
   for (uint8_t i = 0; i < 8; i++) {
     static uint8_t addr = 0xAA;
     uint16_t ret = 0x0;
@@ -147,6 +134,28 @@ int32_t BMP180::_getB5(int32_t UT) {
   return (((UT - _uidata[2]) * _uidata[1]) >> 15) +
          (((int32_t)_idata[6] << 11) /
           ((((UT - _uidata[2]) * _uidata[1]) >> 15) + _idata[7]));
+}
+
+void BMP180::_setDelay(BMP180modes_t mode) {
+  switch (mode) {
+    case BMP180_MODE_ULTRALOWPOWER:
+      _delay = 5;
+      break;
+    case BMP180_MODE_STANDARD:
+      _delay = 8;
+      break;
+    case BMP180_MODE_HIRES:
+      _delay = 14;
+      break;
+    default:
+      _delay = 26;
+      break;
+  }
+}
+
+void BMP180::changeMode(BMP180modes_t mode) {
+  _mode = mode;
+  _setDelay(mode);
 }
 
 double BMP180::getTempInCDirect() {

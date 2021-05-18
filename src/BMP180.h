@@ -16,6 +16,7 @@ class BMP180 {
   BMP180(uint8_t addr);
   BMP180();
   ~BMP180();
+  void changeMode(BMP180modes_t mode);
   uint32_t requestMeasurementT();
   uint32_t requestMeasurementP();
   bool getResultT();
@@ -27,6 +28,7 @@ class BMP180 {
   bool begin(BMP180modes_t mode);
   bool begin(BMP180modes_t mode,uint8_t sda,uint8_t scl);
   private:
+  void _setDelay(BMP180modes_t mode);
   int32_t _rpressure;
   int32_t _rtemp;
   int32_t _getB5(int32_t UT);
