@@ -13,10 +13,10 @@ bool BMP180::begin(BMP180modes_t mode, uint8_t sda, uint8_t scl) {
   for (uint8_t i = 0; i < 8; i++) {
     static uint8_t addr = 0xAA;
     uint16_t ret = 0x0;
-    Wire.beginTransmission(0x77);
+    Wire.beginTransmission(_addr);
     Wire.write(addr);
     Wire.endTransmission();
-    Wire.requestFrom(0x77, 2);
+    Wire.requestFrom(_addr, 2);
     ret = Wire.read();
     ret <<= 8;
     ret |= Wire.read();
@@ -117,11 +117,8 @@ int32_t BMP180::getPressure() {
   uint32_t B4 = ((uint32_t)_uidata[0] * (uint32_t)(X3 + 32768)) >> 15;
   uint32_t B7 = ((uint32_t)_rpressure - B3) * (uint32_t)(50000UL >> _mode);
 
-  if (B7 < (uint32_t)0x80000000) {
-    p = (B7 * 2) / B4;
-  } else {
-    p = (B7 / B4) * 2;
-  }
+  (B7 < (uint32_t)0x80000000) ? p = (B7 * 2) / B4 : p = (B7 / B4) * 2;
+
   X1 = (p >> 8) * (p >> 8);
   X1 = (X1 * 3038) >> 16;
   X2 = (-7357 * p) >> 16;
