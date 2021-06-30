@@ -3,7 +3,10 @@ BMP180 bmp180(0x77);
 void setup() {
   Serial.begin(9600);
   Serial.println();
-  bmp180.begin(BMP180_MODE_ULTRAHIRES);
+  if(!bmp180.begin(BMP180_MODE_ULTRAHIRES)){
+    Serial.println("Sensor init failed.Please check your wiring");
+    while(1); //dead
+  }
 }
 
 void loop() {
